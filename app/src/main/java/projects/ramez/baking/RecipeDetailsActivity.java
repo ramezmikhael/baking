@@ -25,10 +25,10 @@ public class RecipeDetailsActivity extends AppCompatActivity
 
         Bundle bundle = getIntent().getExtras();
         if(bundle != null && bundle.containsKey(EXTRA_RECIPE)) {
-
             mRecipe = bundle.getParcelable(EXTRA_RECIPE);
         }
 
+        getSupportActionBar().setTitle(mRecipe.getName());
         mIsTablet = getResources().getBoolean(R.bool.isTablet);
 
         if(savedInstanceState == null) {

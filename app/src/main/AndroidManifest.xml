@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".RecipeDetailsActivity" />
-        <activity android:name=".RecipeStepDetailsActivity"></activity>
+        <activity android:name=".RecipeStepDetailsActivity" />
+        <activity android:name=".CreditActivity"></activity>
     </application>
 
 </manifest>

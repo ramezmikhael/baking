@@ -1,15 +1,21 @@
 package projects.ramez.baking;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -28,6 +34,10 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import projects.ramez.baking.models.Recipe;
@@ -38,20 +48,23 @@ public class RecipeStepDetailsFragment extends Fragment implements View.OnClickL
 
     private static final String ARG_STEP = "step";
     private static final String ARG_MAX_STEP_ID = "max_step_id";
+    private static final String TAG = "StepDetailsFragment";
 
+    private boolean mExoPlayerFullscreen;
     private boolean mIsTablet;
     private int mOrientation;
     private int mMaxStepId;
     private Step mStep;
     private SimpleExoPlayer mPlayer;
+    private Dialog mFullScreenDialog;
 
     OnRecipeStepDetailInteractionListener mListener;
 
+    @BindView(R.id.no_video) TextView tvNoVideo;
     @Nullable @BindView(R.id.step_description) TextView tvStepDescription;
     @BindView(R.id.videoPlayer) PlayerView playerView;
     @Nullable @BindView(R.id.next_fab) FloatingActionButton fabNext;
     @Nullable @BindView(R.id.pre_fab) FloatingActionButton fabPrevious;
-    @Nullable @BindView(R.id.no_video) TextView tvNoVideo;
 
     public RecipeStepDetailsFragment() {
         // Required empty public constructor
@@ -79,31 +92,65 @@ public class RecipeStepDetailsFragment extends Fragment implements View.OnClickL
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_recipe_step_details, container, false);
-        ButterKnife.bind(this, view);
+        View rootView = inflater.inflate(R.layout.fragment_recipe_step_details, container, false);
+        ButterKnife.bind(this, rootView);
 
         mIsTablet = getResources().getBoolean(R.bool.isTablet);
-        mOrientation = getActivity().getResources().getConfiguration().orientation;
+        mOrientation = getResources().getConfiguration().orientation;
 
         // Phone-Land: video
         // Tablet: video + description
         // Phone-Portrait: video + description + buttons
-        if(mOrientation == Configuration.ORIENTATION_PORTRAIT || mIsTablet) {
+        if(tvStepDescription != null) {
             tvStepDescription.setText(mStep.getDescription());
         }
-        if(!mIsTablet && mOrientation == Configuration.ORIENTATION_PORTRAIT) {
+        if(fabNext != null) {
             fabNext.setOnClickListener(this);
             fabPrevious.setOnClickListener(this);
             showHideNextPreButtons();
         }
 
-        // Hide NO VIDEO message if there is available video to play
-        if(!mStep.getVideoURL().isEmpty()) {
-            tvNoVideo.setVisibility(View.GONE);
-            handleVideoPlayer();
+        if(!mIsTablet) {
+            if(mOrientation == Configuration.ORIENTATION_LANDSCAPE && !mStep.getVideoURL().isEmpty()) {
+                /*
+                 * To handle full-screen video layout I used this source with the help of my great classroom mentor :)
+                 * https://geoffledak.com/blog/2017/09/11/how-to-add-a-fullscreen-toggle-button-to-exoplayer-in-android/
+                 */
+                initFullscreenDialog();
+                openFullscreenDialog();
+            } else if (mOrientation == Configuration.ORIENTATION_PORTRAIT && !mStep.getVideoURL().isEmpty()) {
+                tvNoVideo.setVisibility(View.GONE);
+            } else {
+                playerView.setVisibility(View.GONE);
+            }
         }
 
-        return view;
+        handleVideoPlayer();
+
+        return rootView;
+    }
+
+    private void initFullscreenDialog() {
+        mFullScreenDialog = new Dialog(getActivity(), android.R.style.Theme_Black_NoTitleBar_Fullscreen) {
+            public void onBackPressed() {
+                if (mExoPlayerFullscreen)
+                    closeFullscreenDialog();
+                super.onBackPressed();
+            }
+        };
+    }
+
+    private void openFullscreenDialog() {
+        ((ViewGroup) playerView.getParent()).removeView(playerView);
+        mFullScreenDialog.addContentView(playerView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        mExoPlayerFullscreen = true;
+        mFullScreenDialog.show();
+    }
+
+    private void closeFullscreenDialog() {
+        mExoPlayerFullscreen = false;
+        mFullScreenDialog.dismiss();
+        getActivity().finish();
     }
 
     private void showHideNextPreButtons() {

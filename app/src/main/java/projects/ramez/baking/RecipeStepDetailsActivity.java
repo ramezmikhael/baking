@@ -25,6 +25,7 @@ public class RecipeStepDetailsActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_recipe_step_details);
 
         Bundle bundle = getIntent().getExtras();
         int stepId;
@@ -36,20 +37,8 @@ public class RecipeStepDetailsActivity extends AppCompatActivity
         mRecipe = bundle.getParcelable(ARG_RECIPE);
         stepId = bundle.getInt(ARG_STEP_ID);
 
-         /*
-         * If Tablet or Phone in portrait mode, set Activity's title
-         * else hide the actionBar altogether.
-         */
         mIsTablet = getResources().getBoolean(R.bool.isTablet);
-        if(mIsTablet == false
-                && getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            getSupportActionBar().hide();
-            this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        } else {
-            getSupportActionBar().setTitle(mRecipe.getName());
-        }
-
-        setContentView(R.layout.activity_recipe_step_details);
+        getSupportActionBar().setTitle(mRecipe.getName());
 
         RecipeStepDetailsFragment recipeDetailsFragment = RecipeStepDetailsFragment.newInstance(
                 mRecipe.getSteps()[stepId], mRecipe.getSteps().length - 1);

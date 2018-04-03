@@ -9,6 +9,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import java.util.List;
@@ -41,6 +44,21 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         loadRecipes();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = new MenuInflater(MainActivity.this);
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.menu_credit) {
+            startActivity(new Intent(this, CreditActivity.class));
+        }
+        return true;
     }
 
     private void loadRecipes() {

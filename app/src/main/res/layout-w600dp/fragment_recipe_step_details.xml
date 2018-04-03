@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/layout_margin"
     tools:context="projects.ramez.baking.RecipeStepDetailsFragment">
 
     <com.google.android.exoplayer2.ui.PlayerView
@@ -13,17 +14,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/no_video"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/no_video_available"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:background="@color/cardview_dark_background"
+        android:textColor="@color/cardview_light_background"/>
+
     <ScrollView
         android:id="@+id/description_scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="320dp"
         android:lineSpacingExtra="6sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/videoPlayer">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/step_description"
@@ -34,22 +48,5 @@
             android:textSize="14sp"
             tools:text="Step Description" />
     </ScrollView>
-
-    <TextView
-        android:id="@+id/no_video"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="No Video Available"
-        android:textColor="@color/cardview_light_background"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/videoPlayer"
-        app:layout_constraintEnd_toEndOf="@+id/videoPlayer"
-        app:layout_constraintStart_toStartOf="@+id/videoPlayer"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

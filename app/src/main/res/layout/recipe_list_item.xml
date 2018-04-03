@@ -18,30 +18,39 @@
             android:id="@+id/recipe_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryText"
             android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/recipe_thumb"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Nice Pie"
-            android:layout_marginLeft="8dp" />
+            tools:text="Nice Pie" />
 
         <TextView
             android:id="@+id/serving_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:textSize="18sp"
+            android:textColor="@color/colorSecondaryText"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/recipe_thumb"
+            app:layout_constraintTop_toBottomOf="@+id/recipe_name"
+            tools:text="Serving 8" />
+
+        <ImageView
+            android:id="@+id/recipe_thumb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Serving 8"
-            android:layout_marginRight="8dp" />
+            app:srcCompat="@drawable/if_food" />
 
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

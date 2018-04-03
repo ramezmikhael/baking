@@ -60,8 +60,8 @@ public class RecipeDetailsFragment extends Fragment implements RecipeStepsAdapte
         // Ingredients
         StringBuilder sIngredients = new StringBuilder();
         for (Ingredient ing : mRecipe.getIngredients()) {
-            sIngredients.append(ing.getQuantity() + " " +
-                    ing.getMeasure() + " " + ing.getIngredient());
+            sIngredients.append(ing.getIngredient() + " (" + ing.getQuantity() + " " +
+                    ing.getMeasure() + ")");
             sIngredients.append("\n");
         }
         tvIngredients.setText(sIngredients);

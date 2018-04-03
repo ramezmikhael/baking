@@ -28,6 +28,7 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer-core:2.7.1'
     implementation 'com.google.android.exoplayer:exoplayer-dash:2.7.1'
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.7.1'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     testImplementation 'junit:junit:4.12'

@@ -7,7 +7,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,6 +53,13 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
     @Override
     public void onBindViewHolder(RecipeStepViewHolder holder, int position) {
         holder.tvStepShortDescription.setText(mStepList[position].getShortDescription());
+        if(!mStepList[position].getThumbnailURL().isEmpty()) {
+            Picasso.get()
+                    .load(mStepList[position].getThumbnailURL())
+                    .error(R.drawable.if_check_circle)
+                    .into(holder.imgThumb);
+        }
+
         if(position == mSelectedItemPosition) {
             holder.cvStepCard.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorPrimaryLight));
         } else {
@@ -62,6 +76,7 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
 
         @BindView(R.id.step_card) CardView cvStepCard;
         @BindView(R.id.step_short_description) TextView tvStepShortDescription;
+        @BindView(R.id.step_thumb) ImageView imgThumb;
 
         public RecipeStepViewHolder(View itemView) {
             super(itemView);

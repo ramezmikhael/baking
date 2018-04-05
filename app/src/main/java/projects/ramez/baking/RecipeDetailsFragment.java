@@ -1,5 +1,7 @@
 package projects.ramez.baking;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -72,6 +74,13 @@ public class RecipeDetailsFragment extends Fragment implements RecipeStepsAdapte
         rvSteps.setAdapter(recipeStepsAdapter);
         rvSteps.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvSteps.setNestedScrollingEnabled(false);
+
+        // Set selected recipe is the one which will be displayed in the
+        // app widget.
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getActivity());
+        int[] appWidgetIDs = appWidgetManager.getAppWidgetIds(new ComponentName(getActivity(), IngredientsWidgetProvider.class));
+        IngredientsWidgetProvider.latestOpenedRecipe = mRecipe;
+        IngredientsWidgetProvider.updateIngredientsWidget(getActivity(), appWidgetManager, appWidgetIDs);
 
         return rootView;
     }

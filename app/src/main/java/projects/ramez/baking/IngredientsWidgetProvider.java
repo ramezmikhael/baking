@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.TaskStackBuilder;
 import android.widget.RemoteViews;
 
 import projects.ramez.baking.models.Ingredient;
@@ -39,7 +40,10 @@ public class IngredientsWidgetProvider extends AppWidgetProvider {
             // Handle click to open the selected recipe in activity
             Intent intent = new Intent(context, RecipeDetailsActivity.class);
             intent.putExtra(RecipeDetailsActivity.EXTRA_RECIPE, latestOpenedRecipe);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+            PendingIntent pendingIntent = TaskStackBuilder.create(context)
+                    .addNextIntentWithParentStack(intent)
+                    .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+//                    PendingIntent.getActivity(context, 0, intent, 0);
 
             views.setOnClickPendingIntent(R.id.root_layout, pendingIntent);
         }

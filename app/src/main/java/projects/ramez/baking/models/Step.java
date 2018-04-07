@@ -8,15 +8,15 @@ import android.os.Parcelable;
  */
 
 public class Step implements Parcelable {
-    int id;
-    String shortDescription;
-    String description;
-    String videoURL;
-    String thumbnailURL;
+    private int id;
+    private String shortDescription;
+    private String description;
+    private String videoURL;
+    private String thumbnailURL;
 
     public Step() {}
 
-    protected Step(Parcel in) {
+    private Step(Parcel in) {
         id = in.readInt();
         shortDescription = in.readString();
         description = in.readString();

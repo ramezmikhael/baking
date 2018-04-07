@@ -41,11 +41,6 @@ public class RecipeDetailsActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
     public void onStepClicked(int pos) {
 
         if(!mIsTablet) {

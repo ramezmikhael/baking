@@ -17,10 +17,10 @@ import projects.ramez.baking.models.Recipe;
  */
 
 public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipeViewHolder> {
-    Context mContext;
-    List<Recipe> mRecipesList;
+    private final Context mContext;
+    private final List<Recipe> mRecipesList;
 
-    ItemClickListener mItemClickListener;
+    private ItemClickListener mItemClickListener;
 
     public RecipesAdapter(Context context, List<Recipe> recipesList) {
         mContext = context;
@@ -52,8 +52,8 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipeVi
 
     public class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView mRecipeName;
-        TextView mCount;
+        final TextView mRecipeName;
+        final TextView mCount;
 
         public RecipeViewHolder(View itemView) {
             super(itemView);

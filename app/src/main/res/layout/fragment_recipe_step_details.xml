@@ -19,19 +19,18 @@
         android:id="@+id/no_video"
         android:layout_width="match_parent"
         android:layout_height="249dp"
+        android:background="@color/cardview_dark_background"
+        android:gravity="center"
+        android:text="@string/no_video_available"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/no_video_available"
-        android:gravity="center"
-        android:textSize="24sp"
-        android:background="@color/cardview_dark_background"
-        android:textColor="@color/cardview_light_background">
+        app:layout_constraintTop_toTopOf="parent">
 
     </TextView>
 
     <ScrollView
-        android:id="@+id/description_scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -62,7 +61,8 @@
         android:clickable="true"
         android:src="@android:drawable/ic_media_next"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:focusable="true" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/pre_fab"
@@ -74,7 +74,8 @@
         android:clickable="true"
         android:src="@android:drawable/ic_media_previous"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:focusable="true" />
 
 
 </android.support.constraint.ConstraintLayout>

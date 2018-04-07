@@ -51,20 +51,23 @@ public class RecipeStepDetailsFragment extends Fragment implements View.OnClickL
     private static final String TAG = "StepDetailsFragment";
 
     private boolean mExoPlayerFullscreen;
-    private boolean mIsTablet;
-    private int mOrientation;
     private int mMaxStepId;
     private Step mStep;
     private SimpleExoPlayer mPlayer;
     private Dialog mFullScreenDialog;
 
-    OnRecipeStepDetailInteractionListener mListener;
+    private OnRecipeStepDetailInteractionListener mListener;
 
-    @BindView(R.id.no_video) TextView tvNoVideo;
-    @Nullable @BindView(R.id.step_description) TextView tvStepDescription;
-    @BindView(R.id.videoPlayer) PlayerView playerView;
-    @Nullable @BindView(R.id.next_fab) FloatingActionButton fabNext;
-    @Nullable @BindView(R.id.pre_fab) FloatingActionButton fabPrevious;
+    @BindView(R.id.no_video)
+    TextView tvNoVideo;
+    @Nullable @BindView(R.id.step_description)
+    TextView tvStepDescription;
+    @BindView(R.id.videoPlayer)
+    PlayerView playerView;
+    @Nullable @BindView(R.id.next_fab)
+    FloatingActionButton fabNext;
+    @Nullable @BindView(R.id.pre_fab)
+    FloatingActionButton fabPrevious;
 
     public RecipeStepDetailsFragment() {
         // Required empty public constructor
@@ -95,8 +98,8 @@ public class RecipeStepDetailsFragment extends Fragment implements View.OnClickL
         View rootView = inflater.inflate(R.layout.fragment_recipe_step_details, container, false);
         ButterKnife.bind(this, rootView);
 
-        mIsTablet = getResources().getBoolean(R.bool.isTablet);
-        mOrientation = getResources().getConfiguration().orientation;
+        boolean isTablet = getResources().getBoolean(R.bool.isTablet);
+        int orientation = getResources().getConfiguration().orientation;
 
         // Phone-Land: video
         // Tablet: video + description
@@ -110,15 +113,15 @@ public class RecipeStepDetailsFragment extends Fragment implements View.OnClickL
             showHideNextPreButtons();
         }
 
-        if(!mIsTablet) {
-            if(mOrientation == Configuration.ORIENTATION_LANDSCAPE && !mStep.getVideoURL().isEmpty()) {
+        if(!isTablet) {
+            if(orientation == Configuration.ORIENTATION_LANDSCAPE && !mStep.getVideoURL().isEmpty()) {
                 /*
                  * To handle full-screen video layout I used this source with the help of my great classroom mentor :)
                  * https://geoffledak.com/blog/2017/09/11/how-to-add-a-fullscreen-toggle-button-to-exoplayer-in-android/
                  */
                 initFullscreenDialog();
                 openFullscreenDialog();
-            } else if (mOrientation == Configuration.ORIENTATION_PORTRAIT && !mStep.getVideoURL().isEmpty()) {
+            } else if (orientation == Configuration.ORIENTATION_PORTRAIT && !mStep.getVideoURL().isEmpty()) {
                 tvNoVideo.setVisibility(View.GONE);
             } else {
                 playerView.setVisibility(View.GONE);

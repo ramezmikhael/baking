@@ -6,15 +6,19 @@
 
     <string name="no_video_available">No Video Available</string>
     <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
-
+    <string name="loading">LOADING...</string>
+    <string name="no_internet">No Internet!</string>
+    <string name="retry">Retry</string>
     <!--CREDIT TO LIBRARIES AND ARTWORK USED IN THIS APP-->
     <string name="credit_statement">
         <b>LIBRARIES</b> \n
-        <u>ButterKnife</u> https://jakewharton.github.io/butterknife \n
-        <u>ExoPlayer</u> https://github.com/google/ExoPlayer \n
-        <u>Picasso</u> https://square.github.io/picasso/ \n\n
+        <b>ButterKnife</b> https://jakewharton.github.io/butterknife \n
+        <b>ExoPlayer</b> https://github.com/google/ExoPlayer \n
+        <b>Picasso</b> https://square.github.io/picasso/ \n\n
         <b>ICONS</b> \n
-        <u>Sandwich icon</u> Creative Commons (Unported 3.0) By Scott Lewis https://www.iconfinder.com/iconify \n
+        <b>Sandwich icon</b> Creative Commons (Unported 3.0) By Scott Lewis https://www.iconfinder.com/iconify \n
     </string>
+    <string name="recipe_thumbnail">Recipe Thumbnail</string>
+    <string name="step_thumbnail">Step thumbnail</string>
+    <string name="credit">Credit</string>
 </resources>

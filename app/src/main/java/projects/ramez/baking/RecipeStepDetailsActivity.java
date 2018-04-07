@@ -19,7 +19,6 @@ public class RecipeStepDetailsActivity extends AppCompatActivity
     public static final String ARG_RECIPE = "recipe";
     public static final String ARG_STEP_ID = "step_id";
 
-    private boolean mIsTablet;
     private Recipe mRecipe;
 
     @Override
@@ -37,7 +36,6 @@ public class RecipeStepDetailsActivity extends AppCompatActivity
         mRecipe = bundle.getParcelable(ARG_RECIPE);
         stepId = bundle.getInt(ARG_STEP_ID);
 
-        mIsTablet = getResources().getBoolean(R.bool.isTablet);
         getSupportActionBar().setTitle(mRecipe.getName());
 
         RecipeStepDetailsFragment recipeDetailsFragment = RecipeStepDetailsFragment.newInstance(

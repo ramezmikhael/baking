@@ -10,7 +10,7 @@ import projects.ramez.baking.utils.NetworkUtils;
  */
 
 public class RecipeListLoader extends AsyncTaskLoader<String> {
-    String mUrl;
+    private final String mUrl;
 
     public RecipeListLoader(Context context, String url) {
         super(context);

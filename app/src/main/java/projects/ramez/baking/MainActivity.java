@@ -1,6 +1,8 @@
 package projects.ramez.baking;
 
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -27,9 +30,14 @@ public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<String>,
         RecipesAdapter.ItemClickListener {
 
-    @BindView(R.id.recipes_recyclerview) RecyclerView rvRecipes;
+    @BindView(R.id.root_layout)
+    ConstraintLayout rootLayout;
+    @BindView(R.id.loading)
+    TextView tvLoading;
+    @BindView(R.id.recipes_recyclerview)
+    RecyclerView rvRecipes;
 
-    private String TAG = "MainActivity";
+    private final String TAG = "MainActivity";
     private static final int RECIPES_LOADER_ID = 1;
     private List<Recipe> mRecipes;
 
@@ -73,6 +81,20 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onLoadFinished(Loader<String> loader, String data) {
         Log.d(TAG, "RESULT: " + data);
+
+        if(data.isEmpty()) {
+            Snackbar.make(rootLayout, R.string.no_internet, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.retry, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            loadRecipes();
+                        }
+                    }).show();
+            return;
+        }
+
+        // Hide the loading TextView
+        tvLoading.setVisibility(View.GONE);
 
         mRecipes = JsonUtils.parseRecipesJson(data);
         RecipesAdapter adapter = new RecipesAdapter(this, mRecipes);

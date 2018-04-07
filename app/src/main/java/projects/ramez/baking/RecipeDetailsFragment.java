@@ -22,15 +22,17 @@ import projects.ramez.baking.models.Recipe;
 
 public class RecipeDetailsFragment extends Fragment implements RecipeStepsAdapter.OnItemClickListener {
 
-    @BindView(R.id.ingredients) TextView tvIngredients;
-    @BindView(R.id.steps_recyclerview) RecyclerView rvSteps;
+    @BindView(R.id.ingredients)
+    TextView tvIngredients;
+    @BindView(R.id.steps_recyclerview)
+    RecyclerView rvSteps;
 
     private static final String ARG_RECIPE = "recipe";
 
     private Recipe mRecipe;
 
     private OnRecipeDetailInteractionListener mListener;
-    private String TAG = "RecipeDetailsFragment";
+    private final String TAG = "RecipeDetailsFragment";
 
     public RecipeDetailsFragment() {
         // Required empty public constructor

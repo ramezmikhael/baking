@@ -8,13 +8,13 @@ import android.os.Parcelable;
  */
 
 public class Ingredient implements Parcelable {
-    int quantity;
-    String measure;
-    String ingredient;
+    private int quantity;
+    private String measure;
+    private String ingredient;
 
     public Ingredient() {}
 
-    protected Ingredient(Parcel in) {
+    private Ingredient(Parcel in) {
         quantity = in.readInt();
         measure = in.readString();
         ingredient = in.readString();

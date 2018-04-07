@@ -8,12 +8,12 @@ import android.os.Parcelable;
  */
 
 public class Recipe implements Parcelable {
-    int id;
-    String name;
-    Ingredient[] ingredients;
-    Step[] steps;
-    int servings;
-    String image;
+    private final int id;
+    private final String name;
+    private final Ingredient[] ingredients;
+    private final Step[] steps;
+    private final int servings;
+    private final String image;
 
     public Recipe(int id, String name, Ingredient[] ingredients, Step[] steps, int servings, String image) {
         this.id = id;
@@ -24,7 +24,7 @@ public class Recipe implements Parcelable {
         this.image = image;
     }
 
-    protected Recipe(Parcel in) {
+    private Recipe(Parcel in) {
         id = in.readInt();
         name = in.readString();
         ingredients = in.createTypedArray(Ingredient.CREATOR);

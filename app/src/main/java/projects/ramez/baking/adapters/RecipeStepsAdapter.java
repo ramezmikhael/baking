@@ -27,10 +27,10 @@ import projects.ramez.baking.models.Step;
 
 public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.RecipeStepViewHolder> {
 
-    private Context mContext;
-    private Step[] mStepList;
+    private final Context mContext;
+    private final Step[] mStepList;
 
-    OnItemClickListener mListener;
+    private OnItemClickListener mListener;
     private int mSelectedItemPosition = -1;
 
     public RecipeStepsAdapter(Context context, Step[] stepList) {
@@ -53,7 +53,7 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
     @Override
     public void onBindViewHolder(RecipeStepViewHolder holder, int position) {
         holder.tvStepShortDescription.setText(mStepList[position].getShortDescription());
-        if(!mStepList[position].getThumbnailURL().isEmpty()) {
+        if(mStepList[position].getThumbnailURL() != null && !mStepList[position].getThumbnailURL().isEmpty()) {
             Picasso.get()
                     .load(mStepList[position].getThumbnailURL())
                     .error(R.drawable.if_check_circle)

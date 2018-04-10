@@ -12,10 +12,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.net.URL;
-import java.net.URLConnection;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import projects.ramez.baking.R;

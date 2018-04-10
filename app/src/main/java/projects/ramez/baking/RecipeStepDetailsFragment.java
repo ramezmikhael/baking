@@ -3,44 +3,31 @@ package projects.ramez.baking;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.dash.DashMediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
-import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
-import java.io.IOException;
-import java.net.URL;
-import java.net.URLConnection;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import projects.ramez.baking.models.Recipe;
 import projects.ramez.baking.models.Step;
 
 
@@ -48,7 +35,7 @@ public class RecipeStepDetailsFragment extends Fragment implements View.OnClickL
 
     private static final String ARG_STEP = "step";
     private static final String ARG_MAX_STEP_ID = "max_step_id";
-    private static final String TAG = "StepDetailsFragment";
+    private static final String ARG_VIDEO_POSITION = "video_position";
 
     private boolean mExoPlayerFullscreen;
     private int mMaxStepId;
@@ -85,6 +72,8 @@ public class RecipeStepDetailsFragment extends Fragment implements View.OnClickL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+
         if (getArguments() != null) {
             mStep = getArguments().getParcelable(ARG_STEP);
             mMaxStepId = getArguments().getInt(ARG_MAX_STEP_ID);
@@ -126,11 +115,28 @@ public class RecipeStepDetailsFragment extends Fragment implements View.OnClickL
             } else {
                 playerView.setVisibility(View.GONE);
             }
+        } else {
+            if(mStep.getVideoURL().isEmpty())
+                playerView.setVisibility(View.GONE);
+            else
+                tvNoVideo.setVisibility(View.GONE);
         }
 
         handleVideoPlayer();
+        if(savedInstanceState != null && savedInstanceState.containsKey(ARG_VIDEO_POSITION)) {
+            mPlayer.seekTo(savedInstanceState.getLong(ARG_VIDEO_POSITION));
+        }
 
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if(mPlayer != null) {
+            outState.putLong(ARG_VIDEO_POSITION, mPlayer.getCurrentPosition());
+        }
     }
 
     private void initFullscreenDialog() {
@@ -187,10 +193,22 @@ public class RecipeStepDetailsFragment extends Fragment implements View.OnClickL
         playerView.setPlayer(mPlayer);
     }
 
+    // onPause and onStop comes from this demo code:
+    // https://github.com/google/ExoPlayer/blob/release-v2/demos/main/src/main/java/com/google/android/exoplayer2/demo/PlayerActivity.java#L185
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        releasePlayer();
+    public void onPause() {
+        super.onPause();
+        if (Util.SDK_INT <= 23) {
+            releasePlayer();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (Util.SDK_INT > 23) {
+            releasePlayer();
+        }
     }
 
     private void releasePlayer() {

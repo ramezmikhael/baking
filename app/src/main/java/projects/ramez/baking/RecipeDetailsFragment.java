@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +31,6 @@ public class RecipeDetailsFragment extends Fragment implements RecipeStepsAdapte
     private Recipe mRecipe;
 
     private OnRecipeDetailInteractionListener mListener;
-    private final String TAG = "RecipeDetailsFragment";
 
     public RecipeDetailsFragment() {
         // Required empty public constructor
@@ -106,7 +104,6 @@ public class RecipeDetailsFragment extends Fragment implements RecipeStepsAdapte
 
     @Override
     public void onRecipeStepClicked(int position) {
-        Log.d(TAG, "Clicked step: " + String.valueOf(position));
         if (mListener != null) {
             mListener.onStepClicked(position);
         }

@@ -1,8 +1,6 @@
 package projects.ramez.baking;
 
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;

@@ -36,8 +36,11 @@ public class RecipeStepDetailsFragment extends Fragment implements View.OnClickL
     private static final String ARG_STEP = "step";
     private static final String ARG_MAX_STEP_ID = "max_step_id";
     private static final String ARG_VIDEO_POSITION = "video_position";
+    private static final String ARG_VIDEO_PLAY_STATE = "video_state";
 
     private boolean mExoPlayerFullscreen;
+    private boolean mPlayWhenReady = true;
+    private long mPlayPosition = 0;
     private int mMaxStepId;
     private Step mStep;
     private SimpleExoPlayer mPlayer;
@@ -122,10 +125,11 @@ public class RecipeStepDetailsFragment extends Fragment implements View.OnClickL
                 tvNoVideo.setVisibility(View.GONE);
         }
 
-        handleVideoPlayer();
-        if(savedInstanceState != null && savedInstanceState.containsKey(ARG_VIDEO_POSITION)) {
-            mPlayer.seekTo(savedInstanceState.getLong(ARG_VIDEO_POSITION));
+        if(savedInstanceState != null) {
+            mPlayWhenReady = savedInstanceState.getBoolean(ARG_VIDEO_PLAY_STATE);
+            mPlayPosition = savedInstanceState.getLong(ARG_VIDEO_POSITION);
         }
+        prepareVideo();
 
         return rootView;
     }
@@ -136,6 +140,7 @@ public class RecipeStepDetailsFragment extends Fragment implements View.OnClickL
 
         if(mPlayer != null) {
             outState.putLong(ARG_VIDEO_POSITION, mPlayer.getCurrentPosition());
+            outState.putBoolean(ARG_VIDEO_PLAY_STATE, mPlayer.getPlayWhenReady());
         }
     }
 
@@ -175,10 +180,9 @@ public class RecipeStepDetailsFragment extends Fragment implements View.OnClickL
         }
     }
 
-    private void handleVideoPlayer() {
+    private void prepareVideo() {
         TrackSelector trackSelector = new DefaultTrackSelector();
         LoadControl loadControl = new DefaultLoadControl();
-
         mPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
 
         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getActivity(),
@@ -188,7 +192,8 @@ public class RecipeStepDetailsFragment extends Fragment implements View.OnClickL
                 .createMediaSource(Uri.parse(mStep.getVideoURL()));
 
         mPlayer.prepare(mediaSource);
-        mPlayer.setPlayWhenReady(true);
+        mPlayer.setPlayWhenReady(mPlayWhenReady);
+        mPlayer.seekTo(mPlayPosition);
 
         playerView.setPlayer(mPlayer);
     }
